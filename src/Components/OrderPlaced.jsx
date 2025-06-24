@@ -38,7 +38,7 @@ const OrderPlaced = () => {
   if (!token || orders.length === 0) {
     return (
       <div className="min-h-screen flex flex-col gap-6 items-center justify-center bg-black text-gray-300 text-xl">
-        <p>No orders found...</p>
+        <p>🚫 No orders placed yet!.</p>
         <Link to="/vegies" className="text-emerald-400 hover:underline font-medium">
           ← Back to Home
         </Link>
