@@ -1,49 +1,57 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Navbar from './Navbar';
+import { useNavigate } from 'react-router-dom';
 
 const OrderPlaced = () => {
   const [orders, setOrders] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      setOrders([]);           // Clear the orders
+      return;                  // Don't proceed to fetch
+    }
+
     const fetchOrders = async () => {
       try {
-        const token = localStorage.getItem('token');
         const res = await axios.get('http://localhost:3000/ordered-products', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
 
-        setOrders(res.data || []);
+        if (res.data) setOrders(res.data);
       } catch (err) {
         console.error('Failed to load orders', err);
+        setOrders([]); // Optional: clear if request fails
       }
     };
 
     fetchOrders();
   }, []);
 
-  if (!orders || orders.length === 0) {
+  // ✅ Check again in render to prevent showing stale orders
+  const token = localStorage.getItem('token');
+  if (!token || orders.length === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-black text-gray-300 text-xl">
-        No orders found...
+      <div className="min-h-screen flex flex-col gap-6 items-center justify-center bg-black text-gray-300 text-xl">
+        <p>No orders found...</p>
+        <a href="/vegies" className="text-emerald-400 hover:underline font-medium">
+          ← Back to Home
+        </a>
       </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-black text-white relative">
-      {/* Fixed Navbar */}
       <div className="fixed top-0 left-0 right-0 z-50">
         <Navbar />
       </div>
 
-      {/* Glowing Background Orbs */}
-      <div className="absolute w-96 h-96 bg-green-700 rounded-full mix-blend-multiply blur-3xl opacity-30 animate-pulse -top-10 -left-10 z-0"></div>
-      <div className="absolute w-96 h-96 bg-purple-700 rounded-full mix-blend-multiply blur-3xl opacity-20 animate-pulse bottom-10 right-10 z-0"></div>
-
-      {/* Main Content */}
       <div className="pt-28 px-4 sm:px-6 lg:px-8 flex justify-center items-start z-10 relative">
         <div className="bg-white/10 backdrop-blur-xl p-8 rounded-2xl shadow-2xl max-w-2xl w-full border border-emerald-600">
           <h1 className="text-3xl font-extrabold text-emerald-400 mb-4 text-center">
@@ -91,7 +99,6 @@ const OrderPlaced = () => {
             </div>
           ))}
 
-          {/* Back Link */}
           <div className="mt-6 text-center">
             <a href="/vegies" className="text-emerald-400 hover:underline font-medium">
               ← Back to Home
