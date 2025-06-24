@@ -1,81 +1,120 @@
-import React, { useState } from 'react'
-import Navbar from './Navbar'
-import image1 from '../assets/Images/homebg.jpg'
-import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
-import { setUser } from '../redux/userSlice'
+import React, { useState } from 'react';
+import Navbar from './Navbar';
+import image1 from '../assets/Images/homebg.jpg';
+import { useDispatch } from 'react-redux';
+import { useNavigate, Link } from 'react-router-dom';
+import axios from 'axios';
+import { setUser } from '../redux/userSlice';
+import { setCartItems } from '../redux/cartSlice';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const Login = () => {
+  const [data, setData] = useState({ email: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const [data, setData] = useState({
-    email: "",
-    password: ""
-  })
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setData(prev => ({ ...prev, [name]: value }));
+  };
 
-  function handleChange(event) {
-    const { name, value } = event.target
-    setData({ ...data, [name]: value })
-  }
+  const handleLogin = async (event) => {
+    event.preventDefault();
 
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+    try {
+      const res = await axios.post("http://localhost:3000/login", data);
+      const { token, user } = res.data;
 
-  function display() {
-    console.log(data);
+      // Store token and user
+      localStorage.setItem("token", token);
+      localStorage.setItem("userId", user._id);
 
-    axios.post("http://localhost:3000/login", data)
-      .then((res) => {
-        console.log('Login response:', res.data);
+      dispatch(setUser({
+        user: {
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          
+        },
+        token,
+      }));
 
-
-        dispatch(setUser({
-          _id: res.data.user._id,
-          name: res.data.user.name,
-          email: res.data.user.email,
-          token: res.data.token,
-        }));
-
-        navigate('/profile');
-      })
-      .catch((err) => {
-        console.error('Login error:', err);
-        alert('Invalid email or password');
+      // Fetch user's cart using token
+      const cartRes = await axios.get("http://localhost:3000/cart", {
+        headers: { Authorization: `Bearer ${token}` },
       });
-  }
+
+      dispatch(setCartItems(cartRes.data.items || []));
+
+      navigate('/profile');
+    } catch (err) {
+      console.error("Login error:", err);
+      alert("Invalid email or password");
+    }
+  };
 
   return (
     <div>
       <Navbar />
-      <div className='flex items-center justify-center min-h-screen bg-cover' style={{ backgroundImage: `url(${image1})` }}>
-        <div class="bg-transparent p-8 rounded-lg shadow-md w-full max-w-md backdrop-blur-2xl">
-          <h2 class="text-2xl font-bold text-center mb-6">Log In</h2>
-
-          <form id="signupForm" class="space-y-4 " onSubmit={display}>
-
-
+      <div
+        className="flex items-center justify-center min-h-screen bg-cover bg-center"
+        style={{ backgroundImage: `url(${image1})` }}
+      >
+        <div className="bg-white/20 backdrop-blur-xl p-10 rounded-3xl shadow-2xl w-full max-w-md border border-white/30">
+          <h2 className="text-3xl font-extrabold text-center text-white mb-6 drop-shadow-md">Welcome Back</h2>
+          <form className="space-y-5" onSubmit={handleLogin}>
             <div>
-              <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-              <input type="email" id="email" required name='email'
-                class="mt-1 w-full px-4 py-2 border rounded-md" onChange={handleChange} />
+              <label htmlFor="email" className="block text-sm font-medium text-white mb-1">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                className="w-full px-4 py-2 rounded-lg bg-white/70 text-black placeholder-gray-600 shadow-inner focus:outline-none focus:ring-2 focus:ring-blue-400"
+                placeholder="you@example.com"
+                onChange={handleChange}
+              />
             </div>
 
             <div>
-              <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-              <input type="password" id="password" required name='password'
-                class="mt-1 w-full px-4 py-2 border rounded-md" onChange={handleChange} />
+              <label htmlFor="password" className="block text-sm font-medium text-white mb-1">Password</label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  name="password"
+                  required
+                  className="w-full px-4 py-2 rounded-lg bg-white/70 text-black placeholder-gray-600 shadow-inner focus:outline-none focus:ring-2 focus:ring-blue-400 pr-12"
+                  placeholder="••••••••"
+                  onChange={handleChange}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute top-1/2 right-3 transform -translate-y-1/2 text-blue-700 hover:text-blue-900"
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
             </div>
 
-            <button type="submit"
-              class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700" onClick={display}>
+            <button
+              type="submit"
+              className="w-full bg-blue-600 hover:bg-blue-700 transition duration-300 text-white font-semibold py-2 rounded-lg shadow-md"
+            >
               Log In
             </button>
           </form>
-          <p id="message" class="mt-4 text-center text-sm"></p>
+
+          <p className="mt-4 text-center text-sm text-white/80">
+            Don’t have an account?{' '}
+            <Link to="/signup" className="underline">Sign Up</Link>
+          </p>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
