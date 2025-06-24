@@ -63,7 +63,13 @@ const Vegies = () => {
         throw new Error(errorData.message || 'Failed to add to cart');
       }
 
-      dispatch(addTocart({ ...img, qty: 1 }));
+      dispatch(addTocart({
+        _id: img._id,
+        name: img.name,
+        price: img.price,
+        image: img.imageUrl,
+        qty: 1
+      }));
       toast.success('Added to cart successfully!');
     } catch (err) {
       console.error('Cart error:', err);
