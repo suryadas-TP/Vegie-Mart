@@ -20,7 +20,6 @@ const Cart = () => {
           },
         });
 
-        // ✅ No need to map — your backend already gives a flat normalized structure
         dispatch(setCartItems(res.data.items));
       } catch (err) {
         console.error('Fetch cart failed:', err.response?.data || err.message);
