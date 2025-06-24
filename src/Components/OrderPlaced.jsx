@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Navbar from './Navbar';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const OrderPlaced = () => {
   const [orders, setOrders] = useState([]);
@@ -39,9 +39,9 @@ const OrderPlaced = () => {
     return (
       <div className="min-h-screen flex flex-col gap-6 items-center justify-center bg-black text-gray-300 text-xl">
         <p>No orders found...</p>
-        <a href="/vegies" className="text-emerald-400 hover:underline font-medium">
+        <Link to="/vegies" className="text-emerald-400 hover:underline font-medium">
           ← Back to Home
-        </a>
+        </Link>
       </div>
     );
   }
