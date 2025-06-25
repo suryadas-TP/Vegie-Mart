@@ -47,9 +47,9 @@ const UserProfile = () => {
             </div>
 
             <div className="mt-8 flex justify-center gap-4">
-              <button className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2 rounded-full shadow-lg transition-all">
+              {/* <button className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2 rounded-full shadow-lg transition-all">
                 Edit Profile
-              </button>
+              </button> */}
               <button
                 onClick={handleLogout}
                 className="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2 rounded-full shadow-lg flex items-center gap-2"
