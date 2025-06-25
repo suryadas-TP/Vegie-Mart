@@ -78,7 +78,7 @@ const Vegies = () => {
   };
 
   const filteredImages = images.filter((img) => {
-    const nameMatches = img.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const nameMatches = img.name?.toLowerCase().includes(searchTerm.toLowerCase());
     const price = parseFloat(img.price);
     let priceMatches = true;
 
@@ -91,11 +91,13 @@ const Vegies = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-tr from-gray-900 via-gray-800 to-black text-white">
-      <div className="fixed top-0 left-0 right-0 z-50">
+      {/* ✅ Fixed Navbar with proper z-index */}
+      <div className="fixed top-0 left-0 right-0 z-50 bg-black bg-opacity-70 backdrop-blur">
         <Navbar />
       </div>
 
-      <div className="pt-28 px-4 sm:px-6 lg:px-10 max-w-7xl mx-auto">
+      {/* ✅ Content below navbar with padding to prevent overlap */}
+      <div className="pt-28 px-4 sm:px-6 lg:px-10 max-w-7xl mx-auto w-full">
         {/* Filters */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-10 bg-white/5 backdrop-blur-md p-4 rounded-xl border border-gray-700 shadow-lg">
           <input
@@ -117,7 +119,7 @@ const Vegies = () => {
           </select>
         </div>
 
-        {/* Product Grid */}
+        {/* ✅ Product Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-10 pb-20">
           {loading ? (
             <p className="text-center text-xl text-gray-400 col-span-full animate-pulse">Loading...</p>
@@ -131,9 +133,10 @@ const Vegies = () => {
                   src={img.imageUrl}
                   alt={img.name}
                   className="w-full h-48 sm:h-56 md:h-60 object-cover rounded-t-3xl transition-transform duration-300 hover:scale-105"
+                  loading="lazy"
                 />
                 <div className="p-5 text-center">
-                  <h2 className="text-xl font-bold text-purple-300 tracking-wide">{img.name}</h2>
+                  <h2 className="text-xl font-bold text-purple-300 tracking-wide truncate">{img.name}</h2>
                   <p className="text-lg text-gray-300 my-2">₹ {img.price}</p>
                   <button
                     onClick={() => cartHandle(img)}
