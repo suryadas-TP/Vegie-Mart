@@ -91,13 +91,13 @@ const Vegies = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-tr from-gray-900 via-gray-800 to-black text-white">
-      {/* ✅ Fixed Navbar with proper z-index */}
+      {/* Navbar */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-black bg-opacity-70 backdrop-blur">
         <Navbar />
       </div>
 
-      {/* ✅ Content below navbar with padding to prevent overlap */}
-      <div className="pt-28 px-4 sm:px-6 lg:px-10 max-w-7xl mx-auto w-full">
+      {/* Page content */}
+      <div className="pt-28 px-3 sm:px-6 lg:px-10 max-w-screen-xl mx-auto w-full">
         {/* Filters */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-10 bg-white/5 backdrop-blur-md p-4 rounded-xl border border-gray-700 shadow-lg">
           <input
@@ -119,8 +119,8 @@ const Vegies = () => {
           </select>
         </div>
 
-        {/* ✅ Product Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-10 pb-20">
+        {/* Product grid */}
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 pb-20">
           {loading ? (
             <p className="text-center text-xl text-gray-400 col-span-full animate-pulse">Loading...</p>
           ) : filteredImages.length > 0 ? (
@@ -132,15 +132,15 @@ const Vegies = () => {
                 <img
                   src={img.imageUrl}
                   alt={img.name}
-                  className="w-full h-48 sm:h-56 md:h-60 object-cover rounded-t-3xl transition-transform duration-300 hover:scale-105"
+                  className="w-full h-40 sm:h-48 md:h-52 lg:h-60 object-cover rounded-t-3xl transition-transform duration-300 hover:scale-105"
                   loading="lazy"
                 />
                 <div className="p-5 text-center">
-                  <h2 className="text-xl font-bold text-purple-300 tracking-wide truncate">{img.name}</h2>
-                  <p className="text-lg text-gray-300 my-2">₹ {img.price}</p>
+                  <h2 className="text-lg sm:text-xl font-bold text-purple-300 tracking-wide truncate">{img.name}</h2>
+                  <p className="text-base sm:text-lg text-gray-300 my-2">₹ {img.price}</p>
                   <button
                     onClick={() => cartHandle(img)}
-                    className="mt-3 px-5 py-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-full shadow-md hover:shadow-lg transition-transform hover:scale-105"
+                    className="mt-3 px-4 sm:px-5 py-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-full shadow-md hover:shadow-lg transition-transform hover:scale-105"
                   >
                     🛒 Add to Cart
                   </button>
