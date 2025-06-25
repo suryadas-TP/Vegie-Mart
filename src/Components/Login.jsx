@@ -23,7 +23,7 @@ const Login = () => {
     event.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:3000/login", data);
+      const res = await axios.post("https://vegie-mart.onrender.com/login", data);
       const { token, user } = res.data;
 
       // Store token and user

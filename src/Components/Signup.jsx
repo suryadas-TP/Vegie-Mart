@@ -27,7 +27,7 @@ const Signup = () => {
   const sendData = (e) => {
     e.preventDefault();
     axios
-      .post('http://localhost:3000/user/signup', data)
+      .post('https://vegie-mart.onrender.com/user/signup', data)
       .then((response) => {
         const token = response.data.token;
         const user = response.data.data;

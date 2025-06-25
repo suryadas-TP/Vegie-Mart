@@ -18,7 +18,7 @@ const Vegies = () => {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const res = await fetch('http://localhost:3000/getImage');
+        const res = await fetch('https://vegie-mart.onrender.com/getImage');
         if (!res.ok) throw new Error('Image fetch failed');
         const data = await res.json();
         setImages(data);
@@ -46,7 +46,7 @@ const Vegies = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:3000/cart', {
+      const response = await fetch('https://vegie-mart.onrender.com/cart', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

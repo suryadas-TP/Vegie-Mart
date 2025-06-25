@@ -14,7 +14,7 @@ const Cart = () => {
     const fetchCart = async () => {
       try {
         const token = localStorage.getItem('token');
-        const res = await axios.get('http://localhost:3000/api/cart', {
+        const res = await axios.get('https://vegie-mart.onrender.com/api/cart', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -32,7 +32,7 @@ const Cart = () => {
   const handleRemove = (id) => {
     try{
       const token = localStorage.getItem('token');
-       axios.delete(`http://localhost:3000/api/cart/${id}`,{
+       axios.delete(`https://vegie-mart.onrender.com/api/cart/${id}`,{
          headers: { Authorization: `Bearer ${token}` },
       })
        dispatch(removeFromCart(id));

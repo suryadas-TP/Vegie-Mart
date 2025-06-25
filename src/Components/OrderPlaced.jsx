@@ -16,7 +16,7 @@ const location = useLocation();
 
     const fetchOrders = async () => {
       try {
-        const res = await axios.get('http://localhost:3000/ordered-products', {
+        const res = await axios.get('https://vegie-mart.onrender.com/ordered-products', {
           headers: {
             Authorization: `Bearer ${token}`,
           },

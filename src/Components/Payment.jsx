@@ -41,7 +41,7 @@ const Payment = () => {
         try {
           const token = localStorage.getItem('token');
           await axios.post(
-            'http://localhost:3000/ordered-products',
+            'https://vegie-mart.onrender.com/ordered-products',
             {
               items: cartItems.map((item) => ({
                 productId: item._id,

@@ -35,7 +35,7 @@ const UploadImage = () => {
     toast.info(`Uploading: ${selectedImage.name}`);
 
     try {
-      const response = await fetch('http://localhost:3000/', {
+      const response = await fetch('https://vegie-mart.onrender.com/', {
         method: 'POST',
         body: formData,
       });
