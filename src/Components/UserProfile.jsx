@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { FaUserCircle, FaEnvelope, FaSignOutAlt } from 'react-icons/fa';
 import { logoutUser } from '../redux/userSlice';
 import { useNavigate, Link } from 'react-router-dom';
+import { clearCart } from '../redux/cartSlice';
 
 const UserProfile = () => {
   const user = useSelector((state) => state.user.userInfo);
@@ -12,6 +13,8 @@ const UserProfile = () => {
 
   const handleLogout = () => {
     dispatch(logoutUser());
+    localStorage.removeItem('token');
+    dispatch(clearCart());
     navigate('/login');
   };
 

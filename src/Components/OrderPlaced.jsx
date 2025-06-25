@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Navbar from './Navbar';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const OrderPlaced = () => {
   const [orders, setOrders] = useState([]);
-
+const location = useLocation();
   useEffect(() => {
     const token = localStorage.getItem('token');
 
@@ -30,7 +30,7 @@ const OrderPlaced = () => {
     };
 
     fetchOrders();
-  }, []);
+  }, [location]);
 
   const token = localStorage.getItem('token');
 
